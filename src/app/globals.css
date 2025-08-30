@@ -1,0 +1,486 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* @tailwind utilities; */
+
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-main : var(--font-my-local);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-laundry: var(--laundry);
+  --color-drawer: var(--drawer);
+  --color-grayText: var(--grayText);
+  --color-grayBg: var(--grayBg);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+     
+}
+
+/* 0) پیشنهاد دستکاری پیش‌فرض‌های براوزر برای فرم‌ها */
+:root { color-scheme: light; }
+:root.dark { color-scheme: dark; }
+
+/* 1) خنثی‌ها - لایت */
+:root {
+  --radius: 0.625rem;
+
+  /* پس‌زمینه‌ها و متن */
+  --background: oklch(0.985 0.01 270);
+  --foreground: oklch(0.18 0.02 270);
+
+  --card: oklch(0.99 0.005 270);
+  --card-foreground: var(--foreground);
+
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  /* خنثی‌های UI */
+  --secondary: oklch(0.96 0.01 270);
+  --secondary-foreground: oklch(0.26 0.02 270);
+
+  --muted: oklch(0.965 0.01 270);
+  --muted-foreground: oklch(0.47 0.02 270);
+
+  --accent: oklch(0.97 0.02 270);
+  --accent-foreground: oklch(0.26 0.02 270);
+
+  --border: oklch(0.90 0.01 270);
+  --input: oklch(0.92 0.01 270);
+  --ring: var(--primary); /* فوکوس از پرایمری تبعیت می‌کند */
+
+  /* چارت‌ها (پیش‌فرض ملایم؛ هر تم override می‌کند) */
+  --chart-1: oklch(0.70 0.12 180);
+  --chart-2: oklch(0.70 0.12 260);
+  --chart-3: oklch(0.70 0.12 80);
+  --chart-4: oklch(0.70 0.12 30);
+  --chart-5: oklch(0.70 0.12 320);
+
+  /* سایدبار */
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: oklch(0.24 0.03 270);
+  --sidebar-primary-foreground: oklch(0.985 0.005 270);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--secondary-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+
+  --grayText: #616161;
+  --grayBg: #E4EBF0;
+
+  /* default brand (می‌تونی یکی از تم‌ها رو پیش‌فرض کنی) */
+  --primary: #E56B6F;               /* blossom */
+  --primary-foreground: white;
+}
+
+/* 2) خنثی‌ها - دارک (کنتراست تقویت شده) */
+.dark {
+  --background: oklch(0.16 0.02 270);
+  --foreground: oklch(0.985 0.005 270);
+
+  --card: oklch(0.22 0.02 270);
+  --card-foreground: var(--foreground);
+
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --secondary: oklch(0.26 0.01 270);
+  --secondary-foreground: oklch(0.98 0.005 270);
+
+  --muted: oklch(0.24 0.01 270);
+  --muted-foreground: oklch(0.70 0.01 270);
+
+  --accent: oklch(0.26 0.02 270);
+  --accent-foreground: oklch(0.98 0.005 270);
+
+  --border: oklch(0.40 0.01 270);
+  --input: oklch(0.36 0.01 270);
+  --ring: var(--primary);
+
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: oklch(0.62 0.15 265);
+  --sidebar-primary-foreground: oklch(0.985 0.005 270);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--secondary-foreground);
+  --sidebar-border: oklch(0.40 0.01 270);
+  --sidebar-ring: var(--ring);
+}
+
+/* 3) 7 تم رنگی (لایت + دارک) */
+
+/* 3.1 Blossom — لطیف و زنانه */
+:root[data-theme="blossom"] {
+  --primary: #E56B6F;              /* rose-ish */
+  --primary-foreground: white;
+  --accent: #FDE2E4;
+  --accent-foreground: #3A1F22;
+  --ring: #E56B6F;
+
+  --chart-1: #FB7185;  /* rose-400 */
+  --chart-2: #FCA5A5;  /* rose-300 */
+  --chart-3: #FDA4AF;  /* pink-300 */
+  --chart-4: #F43F5E;  /* rose-500 */
+  --chart-5: #EC4899;  /* pink-500 */
+}
+.dark[data-theme="blossom"] {
+  --primary: #F1999D; /* روشن‌تر برای دارک */
+  --primary-foreground: #111827; /* slate-900 */
+  --accent: #3A1F22;
+  --accent-foreground: #FDE2E4;
+}
+
+/* 3.2 Coral — شاد و پویا (تابستان/کمپین) */
+:root[data-theme="coral"] {
+  --primary: #FF7F50;
+  --primary-foreground: #0B1320;
+  --accent: #FFE7DE;
+  --accent-foreground: #3B221B;
+  --ring: #FF7F50;
+
+  --chart-1: #FDBA74; /* orange-300 */
+  --chart-2: #FB923C; /* orange-400 */
+  --chart-3: #F97316; /* orange-500 */
+  --chart-4: #F43F5E; /* rose-500 */
+  --chart-5: #84CC16; /* lime-500 */
+}
+.dark[data-theme="coral"] {
+  --primary: #FF9C75; /* روشن‌تر در دارک */
+  --primary-foreground: #111827;
+  --accent: #3B221B;
+  --accent-foreground: #FFE7DE;
+}
+
+/* 3.3 Lavender — آرامش‌بخش (اسپا/ریلکس) */
+:root[data-theme="lavender"] {
+  --primary: #A78BFA;             /* violet-300/400 */
+  --primary-foreground: #0B1320;
+  --accent: #F3E8FF;
+  --accent-foreground: #2E1B4B;
+  --ring: #A78BFA;
+
+  --chart-1: #C4B5FD; /* violet-300 */
+  --chart-2: #A78BFA; /* violet-400 */
+  --chart-3: #8B5CF6; /* violet-500 */
+  --chart-4: #22D3EE; /* cyan-400 */
+  --chart-5: #38BDF8; /* sky-400 */
+}
+.dark[data-theme="lavender"] {
+  --primary: #C4B5FD;
+  --primary-foreground: #0F172A;
+  --accent: #2E1B4B;
+  --accent-foreground: #F3E8FF;
+}
+
+/* 3.4 Mint — تازه و پاک (دندان، کلینیک) */
+:root[data-theme="mint"] {
+  --primary: #34D399;              /* emerald-400 */
+  --primary-foreground: #052e1f;
+  --accent: #D1FAE5;               /* emerald-100 */
+  --accent-foreground: #064E3B;    /* emerald-900 */
+  --ring: #34D399;
+
+  --chart-1: #6EE7B7; /* emerald-300 */
+  --chart-2: #34D399; /* emerald-400 */
+  --chart-3: #10B981; /* emerald-500 */
+  --chart-4: #22C55E; /* green-500 */
+  --chart-5: #2DD4BF; /* teal-400 */
+}
+.dark[data-theme="mint"] {
+  --primary: #6EE7B7;
+  --primary-foreground: #052e1f;
+  --accent: #064E3B;
+  --accent-foreground: #CFFAE4;
+}
+
+/* 3.5 Sage — گیاهی و متعادل */
+:root[data-theme="sage"] {
+  --primary: #16A34A;              /* green-600 */
+  --primary-foreground: white;
+  --accent: #E9F8EE;
+  --accent-foreground: #0A3823;
+  --ring: #16A34A;
+
+  --chart-1: #86EFAC; /* green-300 */
+  --chart-2: #4ADE80; /* green-400 */
+  --chart-3: #22C55E; /* green-500 */
+  --chart-4: #84CC16; /* lime-500 */
+  --chart-5: #14B8A6; /* teal-500 */
+}
+.dark[data-theme="sage"] {
+  --primary: #4ADE80; /* روشن‌تر برای دارک */
+  --primary-foreground: #052e1f;
+  --accent: #0A3823;
+  --accent-foreground: #E9F8EE;
+}
+
+/* 3.6 Ocean — پاکیزه و قابل‌اعتماد (کلین/مدرن) */
+:root[data-theme="ocean"] {
+  --primary: #0EA5E9;              /* sky-500 */
+  --primary-foreground: white;
+  --accent: #E0F2FE;               /* sky-100 */
+  --accent-foreground: #0C2540;    /* تیره خوانا */
+  --ring: #38BDF8;
+
+  --chart-1: #38BDF8; /* sky-400 */
+  --chart-2: #60A5FA; /* blue-400 */
+  --chart-3: #22D3EE; /* cyan-400 */
+  --chart-4: #818CF8; /* indigo-400 */
+  --chart-5: #06B6D4; /* cyan-500 */
+}
+.dark[data-theme="ocean"] {
+  --primary: #60A5FA;
+  --primary-foreground: #0B1320;
+  --accent: #0C2540;
+  --accent-foreground: #DFF1FE;
+}
+
+/* 3.7 Sand — نچرال و نود (بیوتی/اسکین‌کر) */
+:root[data-theme="sand"] {
+  --primary: #F59E0B;              /* amber-500 */
+  --primary-foreground: #0F172A;
+  --accent: #FEF3C7;               /* amber-100 */
+  --accent-foreground: #3A2A00;
+  --ring: #F59E0B;
+
+  --chart-1: #FCD34D; /* amber-300 */
+  --chart-2: #FBBF24; /* amber-400 */
+  --chart-3: #F59E0B; /* amber-500 */
+  --chart-4: #FB7185; /* rose-400 */
+  --chart-5: #34D399; /* emerald-400 */
+}
+.dark[data-theme="sand"] {
+  --primary: #FBBF24;
+  --primary-foreground: #0B1320;
+  --accent: #3A2A00;
+  --accent-foreground: #FCEFC3;
+}
+@layer utilities {
+  .shadow-custom-blue {
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.2);
+  }
+
+  .shadow-custom-soft {
+    box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.15);
+  }
+}
+
+@layer base {
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+@keyframes breathing {
+  0% {
+    /* transform: scale(1); */
+    opacity: 0.3;
+  }
+  50% {
+    /* transform: scale(1.05); */
+    opacity: 1;
+  }
+  100% {
+    /* transform: scale(1); */
+    opacity: 0.3;
+  }
+}
+
+.breathing-element {
+  animation: breathing 3s ease-in-out infinite;
+}
+
+.bubble {
+  @apply absolute bottom-0 bg-white opacity-20 rounded-full;
+  animation: float 8s linear infinite;
+}
+
+.delay-1 { animation-delay: 1s; }
+.delay-2 { animation-delay: 2s; }
+.delay-3 { animation-delay: 3s; }
+.delay-4 { animation-delay: 4s; }
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .shadow-rotate {
+    box-shadow:
+      0 -10px 15px -5px rgba(0, 0, 0, 0.2),
+      10px 0 15px -5px rgba(0, 0, 0, 0.2),
+      0 10px 15px -5px rgba(0, 0, 0, 0.2),
+      -10px 0 15px -5px rgba(0, 0, 0, 0.2);
+    animation: rotate-shadow 3s linear infinite;
+  }
+
+  .shake {
+  animation: shake 2s ease-in-out;
+  animation-delay: 5s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: none;
+
+  /* اجرای هر 5 ثانیه یک بار با steps در animation-timing-function */
+  animation-duration: 5s;
+  /* animation-timing-function: steps(1, end); */
+  }
+
+  @keyframes rotate-shadow {
+    0% {
+      box-shadow:
+        0 -10px 15px -5px rgba(0, 0, 0, 0.2),
+        10px 0 15px -5px rgba(0, 0, 0, 0.2),
+        0 10px 15px -5px rgba(0, 0, 0, 0.2),
+        -10px 0 15px -5px rgba(0, 0, 0, 0.2);
+    }
+    25% {
+      box-shadow:
+        10px -10px 15px -5px rgba(0, 0, 0, 0.2),
+        10px 10px 15px -5px rgba(0, 0, 0, 0.2),
+        -10px 10px 15px -5px rgba(0, 0, 0, 0.2),
+        -10px -10px 15px -5px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+      box-shadow:
+        0 10px 15px -5px rgba(0, 0, 0, 0.2),
+        -10px 0 15px -5px rgba(0, 0, 0, 0.2),
+        0 -10px 15px -5px rgba(0, 0, 0, 0.2),
+        10px 0 15px -5px rgba(0, 0, 0, 0.2);
+    }
+    75% {
+      box-shadow:
+        -10px 10px 15px -5px rgba(0, 0, 0, 0.2),
+        -10px -10px 15px -5px rgba(0, 0, 0, 0.2),
+        10px -10px 15px -5px rgba(0, 0, 0, 0.2),
+        10px 10px 15px -5px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+      box-shadow:
+        0 -10px 15px -5px rgba(0, 0, 0, 0.2),
+        10px 0 15px -5px rgba(0, 0, 0, 0.2),
+        0 10px 15px -5px rgba(0, 0, 0, 0.2),
+        -10px 0 15px -5px rgba(0, 0, 0, 0.2);
+    }
+  }
+  @keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+}
+
+@keyframes rotating-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.rotating-ring-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.rotating-ring-border {
+  position: absolute;
+  padding: 0;
+  margin:0;
+  top: -1px;
+  left: -1px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #07f12e; /* blue-500 */
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-radius: 100%;
+  animation: rotating-border 1.5s linear infinite;
+  z-index: 0;
+}
+/* استایل محتوای CKEditor */
+.ck-content {
+    line-height: 1.6;
+    color: #222;
+    font-family: YekanBakh , system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* پاراگراف */
+.ck-content p {
+    font-size: 1rem; /* 16px */
+    margin: 0 0 1em; /* فاصله پایین استاندارد */
+}
+
+/* هدینگ 1 */
+.ck-content h1 {
+    font-size: 2rem; /* 32px */
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1.2em 0 0.6em;
+}
+
+/* هدینگ 2 */
+.ck-content h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 1em 0 0.5em;
+}
+
+/* هدینگ 3 */
+.ck-content h3 {
+    font-size: 1.25rem; /* 20px */
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0.8em 0 0.4em;
+}

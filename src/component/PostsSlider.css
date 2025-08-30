@@ -1,0 +1,105 @@
+/* 
+  مرحله ۱: کانتینر اصلی را به یک Flex Container تبدیل می‌کنیم 
+  که فرزندانش را به صورت ستونی (روی هم) بچیند.
+*/
+.slider-container {
+  display: flex;
+  flex-direction: column; /* چیدمان عمودی: اسلایدر بالا، ایندیکیتور پایین */
+  align-items: center;    /* همه چیز را در محور افقی وسط‌چین می‌کند */
+  position: relative;
+}
+
+/* استایل کارت پست (بدون تغییر) */
+.post-card {
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.post-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.post-card h3 {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* 
+  مرحله ۲: استایل ایندیکیتور را ساده‌تر می‌کنیم.
+  دیگر نیازی به position: absolute و transform نداریم.
+*/
+.custom-pagination {
+  /* ظاهر پس‌زمینه */
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(5px);
+  width: fit-content;
+  /* چیدمان نقطه‌ها */
+  display: flex;
+  gap: 8px;
+  /* 
+    مهم: یک حاشیه منفی به بالا می‌دهیم تا روی اسلایدر قرار بگیرد.
+    مقدار آن را می‌توانید به دلخواه تنظیم کنید.
+  */
+  margin-top: -40px; 
+  z-index: 10; /* برای اینکه روی اسلایدر نمایش داده شود */
+}
+
+/* استایل نقطه‌ها (بدون تغییر) */
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ffffff;
+  width: 24px;
+  border-radius: 5px;
+}
+
+/* 
+  مرحله ۳: برای اینکه اسلایدر فضای خودش را اشغال کند،
+  عرض آن را 100% می‌کنیم.
+*/
+.swiper {
+  width: 100%;
+}
+/* components/PostsSlider.css */
+
+/* 
+  این خط مهم است!
+  چون می‌خواهیم اسلاید فعال بزرگتر شود، ممکن است از کادر بیرون بزند.
+  با overflow: visible به آن اجازه این کار را می‌دهیم.
+*/
+.posts-swiper {
+  overflow: visible;
+}
+
+/* 
+  استایل پایه برای همه اسلایدها.
+  آنها را کمی کوچکتر و کم‌رنگ‌تر می‌کنیم و یک انیمیشن نرم به آنها اضافه می‌کنیم.
+*/
+.posts-swiper .swiper-slide {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  transform: scale(0.95); /* همه اسلایدها در حالت عادی کمی کوچکتر هستند */
+  opacity: 0.5; /* همه اسلایدها در حالت عادی کم‌رنگ (محو) هستند */
+  will-change: transform, opacity; /* بهینه سازی برای انیمیشن روان‌تر */
+}
+
+/* 
+  استایل مخصوص اسلاید فعال (اونی که در وسط قرار دارد).
+  این استایل، استایل پایه را لغو (override) می‌کند.
+*/
+.posts-swiper .swiper-slide-active {
+  transform: scale(1.10); /* اسلاید وسط کمی بزرگتر از اندازه واقعی نمایش داده می‌شود */
+  opacity: 1; /* کاملاً واضح و پررنگ */
+  z-index: 10; /* برای اطمینان از اینکه روی اسلایدهای کناری قرار می‌گیرد */
+}
