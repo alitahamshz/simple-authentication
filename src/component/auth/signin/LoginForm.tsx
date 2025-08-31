@@ -59,7 +59,7 @@ export default function PhoneForm() {
     defaultValues: { phone_number: "" },
   });
 
-  const onSubmit = async (data: PhoneFormValues) => {
+  const onSubmit = async () => {
     setLoading(true);
     simpleLoginApi({ results: 1, nat: "us" })
       .then((res) => {

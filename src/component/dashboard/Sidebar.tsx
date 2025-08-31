@@ -11,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getMenuItems } from "./MenuItems";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, LucideIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -23,14 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Url } from "url";
 
-interface SubType {
-  name: string;
-  href: Url;
-  icon?: LucideIcon;
-  subItems: SubType[];
-}
 export default function Sidebar() {
   const pathname = usePathname();
   const menuItems = getMenuItems();
