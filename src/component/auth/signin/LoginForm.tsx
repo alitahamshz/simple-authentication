@@ -44,7 +44,7 @@ const normalizePhone = (value: string): string => {
   } else if (v.startsWith("98")) {
     v = "0" + v.slice(2);
   } else if (v.startsWith("9")) {
-    v = "0" + v; // مثلا 912...
+    v = "0" + v; // مثلا 912
   }
 
   v = v.replace(/\D/g, "");
@@ -78,7 +78,6 @@ export default function PhoneForm() {
         router.push("/dashboard");
       })
       .catch((err) => {
-        console.log({ err });
         setLoading(false);
       });
   };
@@ -106,7 +105,7 @@ export default function PhoneForm() {
                   maxLength={11} //  11 رقم
                   className="w-full h-12"
                   placeholder="مثلاً 09123456789"
-                  type="text"
+                  type="tel"
                   dir="ltr"
                 />
               </FormControl>

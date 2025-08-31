@@ -6,6 +6,6 @@ export const simpleLoginApi = (data) =>
     `https://randomuser.me/api/?results=${data.results}&nat=${data.nat}`,
     {},
     {
-      successMessage: "کد تایید با موفقیت برای شما ارسال شد",
+      successMessage: "خوش آمدید",
     }
   );

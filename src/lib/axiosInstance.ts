@@ -17,12 +17,13 @@ export const api = axios.create({
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
+    console.log({response})
     const config = response.config as CustomAxiosRequestConfig;
     const customMessage = config.successMessage;
 
     if (typeof window !== "undefined") {
       toast.success(
-        customMessage || `عملیات با موفقیت انجام شد (${response.status})`
+        customMessage || `عملیات با موفقیت انجام شد`
       );
     }
 
