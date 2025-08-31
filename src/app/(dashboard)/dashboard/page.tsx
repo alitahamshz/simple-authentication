@@ -8,7 +8,7 @@ export default function DashboardPage() {
       <h1 className="font-bold text-xl">خوش آمدید</h1>
       <Avatar className="h-24 w-24">
         <AvatarImage src={user?.picture} alt="@shadcn" />
-        <AvatarFallback>user?.name</AvatarFallback>
+        <AvatarFallback>{user?.name}</AvatarFallback>
       </Avatar>
       <h3>{user?.name}</h3>
       <h3>{user?.email}</h3>
