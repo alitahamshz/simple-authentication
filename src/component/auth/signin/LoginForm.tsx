@@ -16,40 +16,77 @@ import {
 import { simpleLoginApi } from "@/services/public";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "صفحه ورود",
+  description: "Admin Dashboard",
+};
 const phoneSchema = z.object({
-  phone_number: z.string().regex(/^09\d{9}$/, "شماره همراه معتبر نیست"),
+  phone_number: z.string().regex(
+    /^(09\d{9}|\+989\d{9}|00989\d{9})$/,
+    "فرمت شماره همراه وارد شده صحیح نیست"
+  ),
 });
 
 type PhoneFormValues = z.infer<typeof phoneSchema>;
 
-export default function PhoneForm({
-  onSuccess,
-}: {
-  onSuccess: (flag: number, phone: string, userId: number) => void;
-}) {
-  const [isLoading, setLoading] = useState(false)
+export default function PhoneForm() {
+  const router = useRouter();
+  const { saveUser } = useUser();
+  const [isLoading, setLoading] = useState(false);
+
+  // 1. یک state برای مدیریت maxLength داینامیک
+  // مقدار اولیه را روی 14 (طولانی‌ترین حالت) می‌گذاریم تا کاربر محدودیتی حس نکند
+  const [maxLength, setMaxLength] = useState(14);
+
   const form = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
-    defaultValues: { phone_number: ""},
+    mode: 'onSubmit',
+    defaultValues: { phone_number: "" },
   });
 
-  // const router = useRouter();
-  const onSubmit = async (data: PhoneFormValues) => {
-    const config = {
-        result:1,
-        nat:"en"
+  // 2. تابع سفارشی برای رویداد onChange
+  const handlePhoneChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: import("react-hook-form").ControllerRenderProps<PhoneFormValues, "phone_number">
+  ) => {
+    const value = e.target.value;
+
+    // بر اساس ابتدای شماره، maxLength را تنظیم می‌کنیم
+    if (value.startsWith('+')) {
+      setMaxLength(13); // +989...
+    } else if (value.startsWith('00')) {
+      setMaxLength(14); // 00989...
+    } else {
+      setMaxLength(11); // 09...
     }
-    setLoading(true)
-    simpleLoginApi(config).then(res => {
-      console.log({ res })
-      setLoading(false)
-    //   onSuccess(2, data.phone_number, res.data.data.result.user)
-    }).catch(err => {
-      console.log({ err })
-      setLoading(false)
-    })
+
+    // در نهایت، مقدار را به react-hook-form اطلاع می‌دهیم
+    field.onChange(e);
+  };
+
+  const onSubmit = async () => {
+    const config = { results: 1, nat: "us" };
+    setLoading(true);
+    simpleLoginApi(config)
+      .then((res) => {
+        setLoading(false);
+        const user = res.data.results[0];
+        const userData = {
+          email: user.email,
+          name: `${user.name.first} ${user.name.last}`,
+          picture: user.picture.large,
+        };
+        saveUser(userData);
+        router.push("/dashboard");
+      })
+      .catch((err) => {
+        console.log({ err });
+        setLoading(false);
+      });
   };
 
   return (
@@ -65,10 +102,15 @@ export default function PhoneForm({
             <FormItem>
               <FormLabel className="font-bold">شماره تماس</FormLabel>
               <FormControl>
+                {/* 3. اتصال maxLength و onChange به Input */}
                 <Input
+                  {...field} // name, value, onBlur, ref را از اینجا می‌گیرد
+                  onChange={(e) => handlePhoneChange(e, field)} // onChange را با تابع سفارشی خود جایگزین می‌کنیم
+                  maxLength={maxLength} // maxLength داینامیک را اعمال می‌کنیم
                   className="w-full h-12"
                   placeholder="مثلاً 09123456789"
-                  {...field}
+                  type="tel"
+                  dir="ltr"
                 />
               </FormControl>
               <FormMessage />
@@ -82,24 +124,12 @@ export default function PhoneForm({
           disabled={isLoading}
         >
           {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              در حال ارسال...
-            </>
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> در حال ارسال...</>
           ) : (
             "ورود"
           )}
         </Button>
-        <div className="w-full text-center">
-          <span>ورود شما به معنای پذیرش{" "}
-            <Link href='/rules' className="underline mx-0.5 text-gray-600">
-              {" "} شرایط و قوانین{" "}
-            </Link>
-           است{" "}
-          </span>
-        </div>
       </form>
     </Form>
   );
 }
-

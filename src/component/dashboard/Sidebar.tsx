@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getMenuItems } from "./MenuItems";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -27,9 +26,8 @@ import {
 } from "@/components/ui/popover";
 
 export default function Sidebar() {
-  const { data: session } = useSession();
   const pathname = usePathname();
-  const menuItems = getMenuItems(session?.user?.role || null);
+  const menuItems = getMenuItems(null);
 
   const [collapsed, setCollapsed] = useState(false);
 

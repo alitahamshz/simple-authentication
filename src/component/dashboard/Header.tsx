@@ -1,18 +1,20 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, Bell } from "lucide-react";
 import Sidebar from "./Sidebar"; // Import Sidebar to use in the sheet
 // import ThemeSwitcher from "@/component/theme/ThemeSwitcher"
+import { useUser } from "@/context/UserContext";
 export default function Header() {
+  const { user, removeUser } = useUser();
+
   return (
     <header className="sticky top-0 z-10 flex py-[14px] items-center gap-4 border-b bg-white dark:bg-gray-950 px-4 md:px-6">
       {/* Mobile Menu */}
@@ -52,21 +54,23 @@ export default function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-9 w-auto gap-2 px-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarImage src={user?.picture} alt="@shadcn" />
                   <AvatarFallback>JS</AvatarFallback>
                 </Avatar>
                 <div className="hidden md:flex flex-col items-start">
-                    <span className="text-sm font-medium">John Smith</span>
+                    <span className="text-sm font-medium">{user?.name}</span>
                 </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+         
+          
+          
+            <DropdownMenuItem>
+              <Button onClick={() => removeUser()} variant="ghost" className="w-full justify-start">
+                Logout
+              </Button>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

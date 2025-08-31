@@ -15,11 +15,8 @@ import {
     ShoppingBag,
     Gift,
     SprayCan,
-    UserRound
+  
 } from "lucide-react";
-import ThemeSwitcher from "../theme/ThemeSwitcher";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
 
 // دیتا با آیکون‌ها حفظ می‌شود
 const menuItems = [
@@ -58,7 +55,6 @@ const menuItems = [
 ];
 
 export const Header = () => {
-    const { data: session } = useSession();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     return (
@@ -133,21 +129,6 @@ export const Header = () => {
                             <Input placeholder="جستجو برای..." className="rounded-full bg-gray-100 border-none pl-10 w-64 dark:bg-gray-800" />
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         </div>
-                        {session?.accessToken && (
-                            // <Link href="/profile">
-                            //   <UserRound size={28} className="bg-gray-200 user-ring-animation" />
-                            // </Link>
-                            <Link href="/dashboard">
-
-                                <UserRound
-                                    size={30}
-                                    className="bg-gray-200 dark:bg-gray-700 p-1 rounded-full relative z-10 shadow border-primary border-2"
-                                />
-
-                            </Link>
-                        )}
-                        <ThemeSwitcher />
-
                         <button onClick={() => setIsDrawerOpen(true)} className="lg:hidden p-2">
                             <Menu className="h-6 w-6" />
                         </button>

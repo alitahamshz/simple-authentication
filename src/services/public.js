@@ -16,7 +16,7 @@ export const otpPhone = (data) =>
   });
 
   export const simpleLoginApi = (data) =>
-  api.post(`https://randomuser.me/api/?results=${data.results}&nat=${data.us}`, data, {
+  api.get(`https://randomuser.me/api/?results=${data.results}&nat=${data.nat}`, {}, {
     successMessage: "کد تایید با موفقیت برای شما ارسال شد",
   });
 // استفاده از فچ سروری
