@@ -24,54 +24,44 @@ export const metadata: Metadata = {
   title: "صفحه ورود",
   description: "Admin Dashboard",
 };
+
+// فقط فرمت 09XXXXXXXXX رو قبول می‌کنیم
 const phoneSchema = z.object({
-  phone_number: z.string().regex(
-    /^(09\d{9}|\+989\d{9}|00989\d{9})$/,
-    "فرمت شماره همراه وارد شده صحیح نیست"
-  ),
+  phone_number: z.string().regex(/^09\d{9}$/, "فرمت شماره همراه صحیح نیست"),
 });
 
 type PhoneFormValues = z.infer<typeof phoneSchema>;
+
+// --- 🔹 تابع normalize برای همه ورودی‌ها
+const normalizePhone = (value: string): string => {
+  let v = value.replace(/\D/g, ""); // حذف هر چیزی غیر از عدد
+
+  if (v.startsWith("0098")) {
+    v = "0" + v.slice(4);
+  } else if (v.startsWith("98")) {
+    v = "0" + v.slice(2);
+  } else if (v.startsWith("9")) {
+    v = "0" + v; // اگر کسی 912... بزنه
+  }
+
+  // نهایتاً فقط 11 رقم
+  return v.slice(0, 11);
+};
 
 export default function PhoneForm() {
   const router = useRouter();
   const { saveUser } = useUser();
   const [isLoading, setLoading] = useState(false);
 
-  // 1. یک state برای مدیریت maxLength داینامیک
-  // مقدار اولیه را روی 14 (طولانی‌ترین حالت) می‌گذاریم تا کاربر محدودیتی حس نکند
-  const [maxLength, setMaxLength] = useState(14);
-
   const form = useForm<PhoneFormValues>({
     resolver: zodResolver(phoneSchema),
-    mode: 'onSubmit',
+    mode: "onSubmit",
     defaultValues: { phone_number: "" },
   });
 
-  // 2. تابع سفارشی برای رویداد onChange
-  const handlePhoneChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: import("react-hook-form").ControllerRenderProps<PhoneFormValues, "phone_number">
-  ) => {
-    const value = e.target.value;
-
-    // بر اساس ابتدای شماره، maxLength را تنظیم می‌کنیم
-    if (value.startsWith('+')) {
-      setMaxLength(13); // +989...
-    } else if (value.startsWith('00')) {
-      setMaxLength(14); // 00989...
-    } else {
-      setMaxLength(11); // 09...
-    }
-
-    // در نهایت، مقدار را به react-hook-form اطلاع می‌دهیم
-    field.onChange(e);
-  };
-
-  const onSubmit = async () => {
-    const config = { results: 1, nat: "us" };
+  const onSubmit = async (data: PhoneFormValues) => {
     setLoading(true);
-    simpleLoginApi(config)
+    simpleLoginApi({ results: 1, nat: "us" })
       .then((res) => {
         setLoading(false);
         const user = res.data.results[0];
@@ -102,11 +92,14 @@ export default function PhoneForm() {
             <FormItem>
               <FormLabel className="font-bold">شماره تماس</FormLabel>
               <FormControl>
-                {/* 3. اتصال maxLength و onChange به Input */}
                 <Input
-                  {...field} // name, value, onBlur, ref را از اینجا می‌گیرد
-                  onChange={(e) => handlePhoneChange(e, field)} // onChange را با تابع سفارشی خود جایگزین می‌کنیم
-                  maxLength={maxLength} // maxLength داینامیک را اعمال می‌کنیم
+                  {...field}
+                  value={field.value}
+                  onChange={(e) => {
+                    const normalized = normalizePhone(e.target.value);
+                    field.onChange(normalized);
+                  }}
+                  maxLength={11} // همیشه 11 رقم
                   className="w-full h-12"
                   placeholder="مثلاً 09123456789"
                   type="tel"
@@ -124,7 +117,9 @@ export default function PhoneForm() {
           disabled={isLoading}
         >
           {isLoading ? (
-            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> در حال ارسال...</>
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> در حال ارسال...
+            </>
           ) : (
             "ورود"
           )}

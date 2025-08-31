@@ -1,14 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// menuItems.ts
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, LucideIcon } from "lucide-react";
 
 interface MenuItem {
   name: string;
   href?: string;
-  icon?: any;
-  badge?: string;
-  pro?: boolean;
-  subItems?: MenuItem[];
+  icon?: LucideIcon;
+  subItems?: MenuItem[]
 }
 
 interface MenuGroup {

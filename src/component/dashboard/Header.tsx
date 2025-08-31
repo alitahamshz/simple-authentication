@@ -8,9 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Menu, Bell } from "lucide-react";
+import { Menu } from "lucide-react";
 import Sidebar from "./Sidebar"; // Import Sidebar to use in the sheet
-// import ThemeSwitcher from "@/component/theme/ThemeSwitcher"
+import ThemeSwitcher from "@/component/theme/ThemeSwitcher"
 import { useUser } from "@/context/UserContext";
 export default function Header() {
   const { user, removeUser } = useUser();
@@ -45,11 +45,8 @@ export default function Header() {
 
       {/* Header Icons & User Menu */}
       <div className="flex items-center gap-4">
-        {/* <ThemeSwitcher/> */}
-        <Button variant="ghost" size="icon">
-          <Bell className="h-5 w-5" />
-          <span className="sr-only">Notifications</span>
-        </Button>
+        <ThemeSwitcher/>
+       
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-9 w-auto gap-2 px-2">
@@ -63,12 +60,9 @@ export default function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-         
-          
-          
             <DropdownMenuItem>
               <Button onClick={() => removeUser()} variant="ghost" className="w-full justify-start">
-                Logout
+                خروج
               </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/component/dashboard/Header";
 import Sidebar from "@/component/dashboard/Sidebar";
-// import { ThemeDock } from "@/component/theme/ThemeDock";
 import ProtectedRoute from "@/component/common/ProtectedRoute";
 
 export const metadata: Metadata = {
@@ -15,6 +14,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
+    
     <ProtectedRoute requireAuth={true}>
 
       <div className="flex h-screen overflow-hidden bg-gray-100/90 dark:bg-gray-900/90">
@@ -30,7 +30,6 @@ export default function DashboardLayout({
           {/* Main Content */}
           <main className="flex-1 p-4 md:p-8">
             {children}
-            {/* <ThemeDock side="left" /> */}
           </main>
         </div>
       </div>

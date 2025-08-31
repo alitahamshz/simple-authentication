@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
@@ -12,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getMenuItems } from "./MenuItems";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, LucideIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -24,10 +23,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Url } from "url";
 
+interface SubType {
+  name: string;
+  href: Url;
+  icon?: LucideIcon;
+  subItems: SubType[];
+}
 export default function Sidebar() {
   const pathname = usePathname();
-  const menuItems = getMenuItems(null);
+  const menuItems = getMenuItems();
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -71,7 +77,7 @@ export default function Sidebar() {
                 </h2>
               )}
 
-              {group.items.map((item: any) => {
+              {group.items.map((item) => {
                 const baseBtn = (
                   <Button
                     variant={pathname === item.href ? "secondary" : "ghost"}
@@ -79,7 +85,7 @@ export default function Sidebar() {
                       collapsed ? "justify-center px-2" : "justify-start"
                     }`}
                   >
-                    <item.icon className="w-5 h-5" />
+                    {item.icon && <item.icon className="w-5 h-5" />}
                     {!collapsed && item.name}
                   </Button>
                 );
@@ -87,7 +93,7 @@ export default function Sidebar() {
                 // case 1: آیتم معمولی
                 if (!item.subItems) {
                   return (
-                    <Link href={item.href} key={item.name}>
+                    <Link href={item.href || "#"} key={item?.name}>
                       {collapsed ? (
                         <TooltipProvider>
                           <Tooltip>
@@ -112,7 +118,9 @@ export default function Sidebar() {
                         <TooltipTrigger asChild>
                           <PopoverTrigger asChild>{baseBtn}</PopoverTrigger>
                         </TooltipTrigger>
-                        <TooltipContent side="right">{item.name}</TooltipContent>
+                        <TooltipContent side="right">
+                          {item.name}
+                        </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                     <PopoverContent
@@ -120,8 +128,8 @@ export default function Sidebar() {
                       align="start"
                       className="w-48 p-2"
                     >
-                      {item.subItems.map((sub: any) => (
-                        <Link href={sub.href} key={sub.name}>
+                      {item.subItems.map((sub) => (
+                        <Link href={sub.href || '#'} key={sub.name}>
                           <Button
                             variant="ghost"
                             className="w-full justify-start text-sm font-normal"
@@ -133,16 +141,20 @@ export default function Sidebar() {
                     </PopoverContent>
                   </Popover>
                 ) : (
-                  <AccordionItem value={item.name} key={item.name} className="border-b-0">
+                  <AccordionItem
+                    value={item.name}
+                    key={item.name}
+                    className="border-b-0"
+                  >
                     <AccordionTrigger className="text-md font-medium hover:no-underline hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-2 py-2">
                       <div className="flex items-center gap-3">
-                        <item.icon className="w-5 h-5" />
+                        {item.icon && <item.icon className="w-5 h-5" />}
                         {item.name}
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="pl-6">
-                      {item.subItems.map((sub: any) => (
-                        <Link href={sub.href} key={sub.name}>
+                      {item.subItems.map((sub) => (
+                        <Link href={sub.href || '#'} key={sub.name}>
                           <Button
                             variant="ghost"
                             className="w-full justify-start text-sm font-normal"

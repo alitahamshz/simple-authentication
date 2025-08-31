@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// lib/axios.ts
-
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { toast } from "react-hot-toast";
-// import { cookies } from "next/headers";
 
-// const token = (await cookies()).get("access_token")?.value;
+// سفارشی سازی اینترفیس
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  successMessage?: string;
+}
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "https://api.example.com",
@@ -13,18 +12,14 @@ export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    // authorization: `Bearer ${token}`,
   },
-  // withCredentials: true, // اگر نیاز به ارسال کوکی یا احراز هویت داری
 });
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    // const method = response.config.method?.toUpperCase();
-    // اگر successMessage مشخص شده بود، همون رو نمایش بده
-    const customMessage = (response.config as any).successMessage;
-    // console.log({ method, response });
-    // نمایش پیام موفقیت برای متدهایی غیر از GET
+    const config = response.config as CustomAxiosRequestConfig;
+    const customMessage = config.successMessage;
+
     if (typeof window !== "undefined") {
       toast.success(
         customMessage || `عملیات با موفقیت انجام شد (${response.status})`
@@ -51,7 +46,7 @@ api.interceptors.response.use(
           toast.error("منبع مورد نظر یافت نشد.");
           break;
         case 500:
-          toast.error("خطای داخلی سرور.");
+          toast.error("خطای سرور.");
           break;
         default:
           toast.error("خطایی رخ داده است.");
