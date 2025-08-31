@@ -21,30 +21,34 @@ import { useUser } from "@/context/UserContext";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "صفحه ورود",
-  description: "Admin Dashboard",
+  title: " ورود",
+  description: "صفحه ورود",
 };
 
-// فقط فرمت 09XXXXXXXXX رو قبول می‌کنیم
 const phoneSchema = z.object({
   phone_number: z.string().regex(/^09\d{9}$/, "فرمت شماره همراه صحیح نیست"),
 });
 
 type PhoneFormValues = z.infer<typeof phoneSchema>;
 
-// --- 🔹 تابع normalize برای همه ورودی‌ها
 const normalizePhone = (value: string): string => {
-  let v = value.replace(/\D/g, ""); // حذف هر چیزی غیر از عدد
+  let v = value;
 
-  if (v.startsWith("0098")) {
+  //حذف فاصله و خط فاصله ها
+  v = v.replace(/[\s-]/g, "");
+
+  if (v.startsWith("+98")) {
+    v = "0" + v.slice(3);
+  } else if (v.startsWith("0098")) {
     v = "0" + v.slice(4);
   } else if (v.startsWith("98")) {
     v = "0" + v.slice(2);
   } else if (v.startsWith("9")) {
-    v = "0" + v; // اگر کسی 912... بزنه
+    v = "0" + v; // مثلا 912...
   }
 
-  // نهایتاً فقط 11 رقم
+  v = v.replace(/\D/g, "");
+
   return v.slice(0, 11);
 };
 
@@ -99,10 +103,10 @@ export default function PhoneForm() {
                     const normalized = normalizePhone(e.target.value);
                     field.onChange(normalized);
                   }}
-                  maxLength={11} // همیشه 11 رقم
+                  maxLength={11} //  11 رقم
                   className="w-full h-12"
                   placeholder="مثلاً 09123456789"
-                  type="tel"
+                  type="text"
                   dir="ltr"
                 />
               </FormControl>
