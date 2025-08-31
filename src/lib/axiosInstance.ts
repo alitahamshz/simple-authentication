@@ -2,8 +2,9 @@ import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from "axios";
 import { toast } from "react-hot-toast";
 
 // سفارشی سازی اینترفیس
-interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+export interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   successMessage?: string;
+  showToast?: boolean; // فلگ برای کنترل نمایش toast
 }
 
 export const api = axios.create({
@@ -17,14 +18,10 @@ export const api = axios.create({
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log({response})
     const config = response.config as CustomAxiosRequestConfig;
-    const customMessage = config.successMessage;
-
-    if (typeof window !== "undefined") {
-      toast.success(
-        customMessage || `عملیات با موفقیت انجام شد`
-      );
+    
+    if (typeof window !== "undefined" && config.showToast !== false) {
+      toast.success(config.successMessage || "عملیات با موفقیت انجام شد");
     }
 
     return response;

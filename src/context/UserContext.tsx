@@ -33,6 +33,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const removeUser = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("welcomeShown");
   };
 
   return (
