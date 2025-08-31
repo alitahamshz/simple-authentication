@@ -77,7 +77,7 @@ export default function PhoneForm() {
         saveUser(userData);
         router.push("/dashboard");
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false);
       });
   };
