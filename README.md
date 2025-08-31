@@ -28,8 +28,8 @@
 1. پروژه را کلون کنید:
 
 ```bash
-git clone https://github.com/username/your-repo.git
-cd your-repo
+git clone https://github.com/alitahamshz/simple-authentication
+cd simple-authentication
 
 npm install
 # یا
